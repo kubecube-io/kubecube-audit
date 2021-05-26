@@ -86,7 +86,7 @@ func getEventName(e *v1.Event) *v1.Event {
 			object = urlstrs[i+1]
 		}
 	}
-	e.ResourceReports = []v1.Resource{{ResourceType: object}}
+	e.ResourceList = []v1.ResourceData{{ResourceType: object}}
 	e.EventName = EventResourceK8s + " " + e.RequestMethod + " " + object
 	e.Description = e.EventName
 	return e

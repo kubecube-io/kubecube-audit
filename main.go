@@ -19,6 +19,7 @@ package main
 import (
 	"audit/pkg/audit"
 	"audit/pkg/backend"
+	"audit/pkg/listener"
 	"audit/pkg/utils/env"
 	"github.com/gin-gonic/gin"
 	"github.com/kubecube-io/kubecube/pkg/clients"
@@ -35,6 +36,8 @@ const apiPathAuditRoot = "/api/v1/cube/audit"
 func main() {
 
 	clients.InitCubeClientSetWithOpts(nil)
+
+	listener.Listener()
 
 	router := gin.Default()
 

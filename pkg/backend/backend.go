@@ -40,6 +40,8 @@ const (
 	MaxRetryTime         = 10
 )
 
+var EnableAudit bool
+
 type Backend struct {
 	url                string
 	client             http.Client
@@ -187,8 +189,9 @@ func (b *Backend) Run() {
 		if len(events.Items) == 0 {
 			continue
 		}
-
-		go b.sendEvents(events)
+		if EnableAudit {
+			go b.sendEvents(events)
+		}
 	}
 }
 
