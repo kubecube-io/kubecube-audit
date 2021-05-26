@@ -19,10 +19,10 @@ package env
 import "os"
 
 const (
-	defaultEsHost  = "es.kubecube-system.svc"
+	//todo config service es.kubecube-system.svc
+	defaultEsHost  = "http://10.219.192.164:30007"
 	defaultEsIndex = "audit"
 	defaultEsType  = "logs"
-	defaultPort    = "8888"
 )
 
 type EsWebhook struct {
@@ -43,12 +43,4 @@ func Webhook() *EsWebhook {
 
 func JwtSecret() string {
 	return os.Getenv("JWT_SECRET")
-}
-
-func Port() string {
-	p := os.Getenv("PORT")
-	if p == "" {
-		return defaultPort
-	}
-	return p
 }

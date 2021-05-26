@@ -29,7 +29,7 @@ type Event struct {
 	ResponseStatus    int
 	ResponseElements  string
 	EventType         string
-	ResourceReports   []Resource
+	ResourceList      []ResourceData
 	ErrorCode         string
 	ErrorMessage      string
 	Url               string
@@ -42,7 +42,7 @@ type UserIdentity struct {
 	AccountId string
 }
 
-type Resource struct {
+type ResourceData struct {
 	ResourceType string
 	ResourceId   string
 	ResourceName string

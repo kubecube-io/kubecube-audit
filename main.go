@@ -19,7 +19,8 @@ package main
 import (
 	"audit/pkg/audit"
 	"audit/pkg/backend"
-	"audit/pkg/utils/env"
+	"audit/pkg/healthz"
+	"audit/pkg/listener"
 	"github.com/gin-gonic/gin"
 	"github.com/kubecube-io/kubecube/pkg/clients"
 	"github.com/kubecube-io/kubecube/pkg/clog"
@@ -36,7 +37,10 @@ func main() {
 
 	clients.InitCubeClientSetWithOpts(nil)
 
+	go listener.Listener()
+
 	router := gin.Default()
+	router.GET("/healthz", healthz.HealthyCheck)
 
 	url := ginSwagger.URL("/swagger/doc.json") // The url pointing to API definition
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
@@ -49,7 +53,7 @@ func main() {
 	b := backend.NewBackend()
 	go b.Run()
 
-	err := router.Run(":" + env.Port())
+	err := router.Run(":8888")
 	if err != nil {
 		clog.Error("%s", err)
 	}
