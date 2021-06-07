@@ -21,6 +21,7 @@ import (
 	"audit/pkg/backend"
 	"audit/pkg/healthz"
 	"audit/pkg/listener"
+	"audit/pkg/utils/env"
 	"github.com/gin-gonic/gin"
 	"github.com/kubecube-io/kubecube/pkg/clients"
 	"github.com/kubecube-io/kubecube/pkg/clog"
@@ -53,7 +54,7 @@ func main() {
 	b := backend.NewBackend()
 	go b.Run()
 
-	err := router.Run(":8888")
+	err := router.Run(":" + env.Port())
 	if err != nil {
 		clog.Error("%s", err)
 	}
