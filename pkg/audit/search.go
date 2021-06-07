@@ -260,7 +260,7 @@ func checkIsAdmin(userName string) bool {
 		return false
 	}
 
-	_, clusterRoles, err := h.RolesFor(user, "")
+	_, clusterRoles, err := h.RolesFor(rbac.User2UserInfo(user.Name), "")
 	if err != nil {
 		clog.Error(err.Error())
 		return false
