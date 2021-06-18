@@ -94,7 +94,7 @@ func (b *Backend) sendEvents(events *v1.EventList) {
 
 		select {
 		case <-ctx.Done():
-			clog.Info("[audit] get auditing event sender timeout")
+			clog.Info("get auditing event sender timeout")
 			return
 		case b.senderCh <- struct{}{}:
 		}
@@ -102,20 +102,20 @@ func (b *Backend) sendEvents(events *v1.EventList) {
 		start := time.Now()
 		defer func() {
 			stopCh <- struct{}{}
-			clog.Info("[audit] send %d auditing logs used %d", len(events.Items), time.Now().Sub(start).Milliseconds())
+			clog.Info("send %d auditing logs used %d", len(events.Items), time.Now().Sub(start).Milliseconds())
 		}()
 		retry := 0
 		for _, event := range events.Items {
 
 			bs, err := json.Marshal(event)
 			if err != nil {
-				clog.Error("[audit] json marshal error, %s", err)
+				clog.Error("json marshal error, %s", err)
 				return
 			}
 
 			response, err := b.client.Post(b.url, "application/json", bytes.NewBuffer(bs))
 			if err != nil {
-				clog.Error("[audit] send audit event error, %s", err)
+				clog.Error("send audit event error, %s", err)
 				retry++
 				if retry >= MaxRetryTime {
 					b.dealFailSend()
@@ -124,7 +124,7 @@ func (b *Backend) sendEvents(events *v1.EventList) {
 			}
 
 			if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated {
-				clog.Error("[audit] send audit event error[%d]", response.StatusCode)
+				clog.Error("send audit event error[%d]", response.StatusCode)
 				return
 			}
 		}
@@ -139,13 +139,13 @@ func (b *Backend) sendEvents(events *v1.EventList) {
 
 	select {
 	case <-ctx.Done():
-		clog.Info("[audit] send audit events timeout")
+		clog.Info("send audit events timeout")
 	case <-stopCh:
 	}
 }
 
 func (b *Backend) dealFailSend() {
-	clog.Info("[audit] send es fail exceed max retry times")
+	clog.Info("send es fail exceed max retry times")
 	b.senderCh = make(chan interface{}, DefaultSendersNum)
 	b.cache = make(chan *v1.Event, DefaultCacheCapacity)
 }
@@ -201,7 +201,7 @@ func CacheEvent(ch chan *v1.Event, e *v1.Event) {
 	case ch <- e:
 		return
 	case <-time.After(CacheTimeout):
-		clog.Info("[audit] cache audit event %s timeout", e.RequestId)
+		clog.Info("cache audit event %s timeout", e.RequestId)
 		break
 	}
 }

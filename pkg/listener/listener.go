@@ -39,7 +39,8 @@ func Listener() {
 
 	config, err := ctrl.GetConfig()
 	if err != nil {
-		panic(err)
+		clog.Error("get ctrl config error: %s", err)
+		return
 	}
 
 	scheme := runtime.NewScheme()
@@ -47,7 +48,8 @@ func Listener() {
 
 	c, err := cache.New(config, cache.Options{Scheme: scheme})
 	if err != nil {
-		panic(err)
+		clog.Error("new cache error: %s", err)
+		return
 	}
 
 	ctx := context.Background()
@@ -55,7 +57,8 @@ func Listener() {
 	hotPlug.Name = hotPlugNameCommon
 	informer, err := c.GetInformer(ctx, hotPlug)
 	if err != nil {
-		panic(err)
+		clog.Error("get informer error: %s", err)
+		return
 	}
 
 	informer.AddEventHandler(toolcache.ResourceEventHandlerFuncs{
@@ -81,6 +84,7 @@ func Listener() {
 
 	err = c.Start(ctx)
 	if err != nil {
-		panic(err)
+		clog.Error("start cache error: %s", err)
+		return
 	}
 }
