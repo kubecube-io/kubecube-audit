@@ -41,9 +41,9 @@ definitions:
         type: string
       requestParameters:
         type: string
-      resourceReports:
+      resourceList:
         items:
-          $ref: '#/definitions/v1.Resource'
+          $ref: '#/definitions/v1.ResourceData'
         type: array
       responseElements:
         type: string
@@ -58,7 +58,7 @@ definitions:
       userIdentity:
         $ref: '#/definitions/v1.UserIdentity'
     type: object
-  v1.Resource:
+  v1.ResourceData:
     properties:
       resourceId:
         type: string
@@ -164,4 +164,14 @@ paths:
       summary: export audit log
       tags:
       - audit
+  /api/v1/cube/healthz:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg": "hello"}'
+          schema:
+            type: string
+      summary: health check
 swagger: "2.0"

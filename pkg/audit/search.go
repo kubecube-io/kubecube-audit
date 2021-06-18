@@ -54,6 +54,8 @@ type auditQuery struct {
 	EndTime         int64  `form:"endTime,omitempty"`
 	Page            int    `form:"page,omitempty"`
 	Size            int    `form:"size,omitempty"`
+	SortBy          string `form:"sortBy,omitempty"`
+	SortAsc         bool   `form:"sortAsc,omitempty"`
 }
 
 type EsResult struct {
@@ -136,6 +138,10 @@ func ExportAuditLog(c *gin.Context) {
 		response.FailReturn(c, err)
 		return
 	}
+	if result.Total == 0 {
+		response.FailReturn(c, errcode.NotFound)
+		return
+	}
 	for i := 0; i <= int(result.Total)/exportEventMaxSize; i++ {
 		end := 0
 		if (i+1)*exportEventMaxSize < int(result.Total) {
@@ -162,7 +168,13 @@ func writeCsv(events []v1.Event) (bytes.Buffer, *errcode.ErrorInfo) {
 	}
 	for _, event := range events {
 		timef := time.Unix(event.EventTime, 0).Format("2006-01-02 15:04:05")
-		data = append(data, []string{event.RequestId, event.UserIdentity.AccountId, timef, event.SourceIpAddress, event.EventName, event.RequestMethod, event.RequestParameters, strconv.Itoa(event.ResponseStatus), event.Url})
+		var accountId string
+		if event.UserIdentity == nil {
+			accountId = ""
+		} else {
+			accountId = event.UserIdentity.AccountId
+		}
+		data = append(data, []string{event.RequestId, accountId, timef, event.SourceIpAddress, event.EventName, event.RequestMethod, event.RequestParameters, strconv.Itoa(event.ResponseStatus), event.Url})
 	}
 
 	dataBytes := &bytes.Buffer{}
@@ -225,10 +237,15 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 		boolQ.Filter(elastic.NewTermQuery("ResponseStatus", query.ResponseStatus))
 	}
 
+	if query.SortBy == "" {
+		query.SortBy = "EventTime"
+	}
+
 	res, err := client.Search().
 		Query(boolQ).
-		From(query.Page * query.Size).
+		From(query.Page*query.Size).
 		Size(query.Size).
+		Sort(query.SortBy, query.SortAsc).
 		Do(context.Background())
 	if err != nil {
 		clog.Error("search audit log from es error: %s", err)

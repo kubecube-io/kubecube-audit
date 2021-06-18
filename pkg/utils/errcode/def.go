@@ -41,4 +41,6 @@ var (
 	// auth
 	noAuthority       = &ErrorInfo{http.StatusForbidden, "No Authority"}
 	authenticateError = &ErrorInfo{http.StatusUnauthorized, "Authenticate failed."}
+
+	notFound = &ErrorInfo{http.StatusNotFound, "No result found."}
 )

@@ -21,4 +21,5 @@ var (
 	InvalidBodyFormat   = New(invalidBodyFormat)
 	NoAuthority         = New(noAuthority)
 	AuthenticateError   = New(authenticateError)
+	NotFound            = New(notFound)
 )

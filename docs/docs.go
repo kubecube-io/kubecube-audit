@@ -162,6 +162,22 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/api/v1/cube/healthz": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "health check",
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\": \"hello\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -229,10 +245,10 @@ var doc = `{
                 "requestParameters": {
                     "type": "string"
                 },
-                "resourceReports": {
+                "resourceList": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/v1.Resource"
+                        "$ref": "#/definitions/v1.ResourceData"
                     }
                 },
                 "responseElements": {
@@ -255,7 +271,7 @@ var doc = `{
                 }
             }
         },
-        "v1.Resource": {
+        "v1.ResourceData": {
             "type": "object",
             "properties": {
                 "resourceId": {

@@ -19,8 +19,7 @@ package env
 import "os"
 
 const (
-	//todo config service es.kubecube-system.svc
-	defaultEsHost  = "http://10.219.192.164:30007"
+	defaultEsHost  = "http://elasticsearch-master.elasticsearch:9200"
 	defaultEsIndex = "audit"
 	defaultEsType  = "logs"
 	defaultPort    = "8888"
