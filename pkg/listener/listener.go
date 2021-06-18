@@ -61,24 +61,35 @@ func Listener() {
 		return
 	}
 
+	procFunc := func(newObj interface{}) {
+		hotplug, ok := newObj.(*hotplugv1.Hotplug)
+		if !ok {
+			clog.Error("watch an error obj: %+v", newObj)
+			return
+		}
+		components := hotplug.Spec.Component
+		if hotplug.Spec.Component == nil {
+			backend.EnableAudit = false
+			return
+		}
+		for _, component := range components {
+			if component.Name == hotPlugComponentNameAudit {
+				if component.Status == hotPlugAuditEnabled {
+					backend.EnableAudit = true
+				} else {
+					backend.EnableAudit = false
+				}
+				break
+			}
+		}
+	}
+
 	informer.AddEventHandler(toolcache.ResourceEventHandlerFuncs{
 		UpdateFunc: func(oldObj, newObj interface{}) {
-			hotplug, ok := newObj.(*hotplugv1.Hotplug)
-			if !ok {
-				clog.Error("watch an error obj: %+v", newObj)
-				return
-			}
-			components := hotplug.Spec.Component
-			for _, component := range components {
-				if component.Name == hotPlugComponentNameAudit {
-					if component.Status == hotPlugAuditEnabled {
-						backend.EnableAudit = true
-					} else {
-						backend.EnableAudit = false
-					}
-
-				}
-			}
+			procFunc(newObj)
+		},
+		AddFunc: func(obj interface{}) {
+			procFunc(obj)
 		},
 	})
 
