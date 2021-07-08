@@ -142,23 +142,25 @@ func ExportAuditLog(c *gin.Context) {
 		response.FailReturn(c, errcode.NotFound)
 		return
 	}
-	for i := 0; i <= int(result.Total)/exportEventMaxSize; i++ {
-		end := 0
-		if (i+1)*exportEventMaxSize < int(result.Total) {
-			end = (i + 1) * exportEventMaxSize
-		} else {
-			end = int(result.Total)
-		}
-		dataBytes, err := writeCsv(result.Events[i*exportEventMaxSize : end])
-		if err != nil {
-			response.FailReturn(c, err)
-			return
-		}
-		c.Writer.Header().Set(constants.HttpHeaderContentType, constants.HttpHeaderContentTypeOctet)
-		fileName := strconv.FormatInt(time.Now().Unix(), 10)
-		c.Writer.Header().Set(constants.HttpHeaderContentDisposition, fmt.Sprintf("attachment;filename=%s.csv", fileName))
-		c.Data(http.StatusOK, "text/csv", dataBytes.Bytes())
+	//for i := 0; i <= int(result.Total)/exportEventMaxSize; i++ {
+	//	end := 0
+	//	if (i+1)*exportEventMaxSize < int(result.Total) {
+	//		end = (i + 1) * exportEventMaxSize
+	//	} else {
+	//		end = int(result.Total)
+	//	}
+
+	dataBytes, err := writeCsv(result.Events)
+	if err != nil {
+		response.FailReturn(c, err)
+		return
 	}
+
+	fileName := strconv.FormatInt(time.Now().Unix(), 10)
+	c.Writer.Header().Set(constants.HttpHeaderContentType, constants.HttpHeaderContentTypeOctet)
+	c.Writer.Header().Set(constants.HttpHeaderContentDisposition, fmt.Sprintf("attachment;filename=%s.csv", fileName))
+	c.Data(http.StatusOK, "text/csv", dataBytes.Bytes())
+	//}
 
 }
 
