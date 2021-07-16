@@ -13,7 +13,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build -a -o audit main.go
+RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build -mod=mod -a -o audit main.go
 
 FROM alpine:3.13.4
 WORKDIR /
