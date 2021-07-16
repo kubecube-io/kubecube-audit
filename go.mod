@@ -6,7 +6,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.7.1
 	github.com/go-playground/validator/v10 v10.6.0 // indirect
-	github.com/kubecube-io/kubecube v0.0.0-20210604023006-e2bd1b5cb369
+	github.com/kubecube-io/kubecube v1.0.0-rc0
 	github.com/olivere/elastic/v7 v7.0.24
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.7.1-0.20210326183817-17c1766b6349
