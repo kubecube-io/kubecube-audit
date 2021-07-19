@@ -79,7 +79,7 @@ github.com/imdario/mergo
 github.com/josharian/intern
 # github.com/json-iterator/go v1.1.11
 github.com/json-iterator/go
-# github.com/kubecube-io/kubecube v0.0.0-20210604023006-e2bd1b5cb369
+# github.com/kubecube-io/kubecube v1.0.0-rc0
 ## explicit
 github.com/kubecube-io/kubecube/pkg/apis
 github.com/kubecube-io/kubecube/pkg/apis/cluster/v1
@@ -89,6 +89,7 @@ github.com/kubecube-io/kubecube/pkg/apis/tenant/v1
 github.com/kubecube-io/kubecube/pkg/apis/user/v1
 github.com/kubecube-io/kubecube/pkg/authenticator
 github.com/kubecube-io/kubecube/pkg/authenticator/jwt
+github.com/kubecube-io/kubecube/pkg/authenticator/token
 github.com/kubecube-io/kubecube/pkg/authorizer/rbac
 github.com/kubecube-io/kubecube/pkg/authorizer/rbac/helper
 github.com/kubecube-io/kubecube/pkg/clients
@@ -105,7 +106,6 @@ github.com/kubecube-io/kubecube/pkg/utils/env
 github.com/kubecube-io/kubecube/pkg/utils/errcode
 github.com/kubecube-io/kubecube/pkg/utils/exit
 github.com/kubecube-io/kubecube/pkg/utils/kubeconfig
-github.com/kubecube-io/kubecube/pkg/utils/token
 # github.com/leodido/go-urn v1.2.1
 github.com/leodido/go-urn
 # github.com/mailru/easyjson v0.7.7
@@ -307,6 +307,7 @@ k8s.io/api/storage/v1alpha1
 k8s.io/api/storage/v1beta1
 # k8s.io/apiextensions-apiserver v0.20.4
 k8s.io/apiextensions-apiserver/pkg/apis/apiextensions
+k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
 k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1
 # k8s.io/apimachinery v0.20.5
 ## explicit

@@ -19,6 +19,8 @@ package kubernetes
 import (
 	"context"
 
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 	"k8s.io/client-go/kubernetes"
 
 	"github.com/kubecube-io/kubecube/pkg/apis"
@@ -49,6 +51,8 @@ func init() {
 	utilruntime.Must(apis.AddToScheme(scheme))
 
 	utilruntime.Must(hnc.AddToScheme(scheme))
+
+	utilruntime.Must(apiextensionsv1.AddToScheme(scheme))
 }
 
 // Client retrieves k8s resource with cache or not

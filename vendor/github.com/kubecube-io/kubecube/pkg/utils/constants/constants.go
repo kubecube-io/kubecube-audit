@@ -35,12 +35,14 @@ const (
 	DefaultPivotCubeHost = "cube.kubecube.io"
 
 	// default pivot cube headless svc
-	DefaultPivotCubeHeadlessSvc = "kubecube.kubecube-system.svc:7443"
-	DefaultAuditSvc             = "audit.kubecube-system.svc:7443"
+	DefaultPivotCubeClusterIPSvc = "kubecube.kubecube-system:7443"
+	DefaultAuditSvc              = "audit.kubecube-system:8888"
 
 	HttpHeaderContentType        = "Content-type"
 	HttpHeaderContentDisposition = "Content-Disposition"
 	HttpHeaderContentTypeOctet   = "application/octet-stream"
+
+	ClusterLabel = "kubecube.io/cluster"
 
 	// TenantLabel represent which tenant resource relate with
 	TenantLabel = "kubecube.io/tenant"
@@ -53,6 +55,10 @@ const (
 
 	// RbacLabel indicates the resource of rbac is related with kubecube
 	RbacLabel = "kubecube.io/rbac"
+
+	RoleLabel = "kubecube.io/role"
+
+	CrdLabel = "kubecube.io/crds"
 
 	// SyncLabel
 	SyncLabel = "kubecube.io/sync"

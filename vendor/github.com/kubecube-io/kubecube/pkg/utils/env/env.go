@@ -26,6 +26,10 @@ func WardenImage() string {
 	return os.Getenv("WARDEN_IMAGE")
 }
 
+func WardenInitImage() string {
+	return os.Getenv("WARDEN_INIT_IMAGE")
+}
+
 func PivotCubeHost() string {
 	r := os.Getenv("PIVOT_CUBE_HOST")
 	if r == "" {
@@ -34,10 +38,10 @@ func PivotCubeHost() string {
 	return r
 }
 
-func PivotCubeHeadlessSvc() string {
-	r := os.Getenv("PIVOT_CUBE_HEADLESS_SVC")
+func PivotCubeClusterIPSvc() string {
+	r := os.Getenv("PIVOT_CUBE_CLUSTER_IP_SVC")
 	if r == "" {
-		r = constants.DefaultPivotCubeHeadlessSvc
+		r = constants.DefaultPivotCubeClusterIPSvc
 	}
 	return r
 }
@@ -60,4 +64,8 @@ func AuditSVC() string {
 
 func JwtSecret() string {
 	return os.Getenv("JWT_SECRET")
+}
+
+func NodeIP() string {
+	return os.Getenv("NODE_IP")
 }
