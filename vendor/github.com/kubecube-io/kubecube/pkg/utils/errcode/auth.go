@@ -30,6 +30,8 @@ var (
 	InvalidToken      = New(invalidToken)
 	ForbiddenErr      = New(forbidden)
 	LdapConnectError  = New(ldapConnectError)
+	PasswordWrong     = New(passwordWrong)
+	UserIsDisabled    = New(userIsDisabled)
 )
 
 func UserNameDuplicated(name string) *ErrorInfo {

@@ -21,6 +21,11 @@ import (
 	"fmt"
 	"sync"
 
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
+	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
+	hnc "sigs.k8s.io/multi-tenancy/incubator/hnc/api/v1alpha2"
+
 	"github.com/kubecube-io/kubecube/pkg/apis"
 	v1 "github.com/kubecube-io/kubecube/pkg/apis/cluster/v1"
 	"github.com/kubecube-io/kubecube/pkg/utils/kubeconfig"
@@ -73,6 +78,9 @@ func newMultiClusterMgr() *MultiClustersMgr {
 
 	scheme := runtime.NewScheme()
 	utilruntime.Must(apis.AddToScheme(scheme))
+	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
+	utilruntime.Must(hnc.AddToScheme(scheme))
+	utilruntime.Must(apiextensionsv1.AddToScheme(scheme))
 
 	cli, err := client.New(config, client.Options{Scheme: scheme})
 	if err != nil {
@@ -83,7 +91,8 @@ func newMultiClusterMgr() *MultiClustersMgr {
 	cluster := v1.Cluster{}
 	err = cli.Get(context.Background(), types.NamespacedName{Name: constants.PivotCluster}, &cluster)
 	if err != nil {
-		clog.Fatal(err.Error())
+		clog.Warn(err.Error())
+		return nil
 	}
 
 	cfg, err := kubeconfig.LoadKubeConfigFromBytes(cluster.Spec.KubeConfig)

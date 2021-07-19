@@ -38,6 +38,8 @@ var (
 	missingParam        = &ErrorInfo{http.StatusBadRequest, "Param %s is missing."}
 	clusterNotFound     = &ErrorInfo{http.StatusBadRequest, "cluster %s not found."}
 	invalidResourceType = &ErrorInfo{http.StatusBadRequest, "resource type param error."}
+	invalidHttpMethod   = &ErrorInfo{http.StatusBadRequest, "not match http method."}
+	badRequest          = &ErrorInfo{http.StatusBadRequest, "bad request. %s"}
 	// The first parameter is the parameter name, the second parameter is the parameter value, such as ID 111 already exists
 	paramNotUnique      = &ErrorInfo{http.StatusBadRequest, "%s %s exists."}
 	invalidParamValue   = &ErrorInfo{http.StatusBadRequest, "Param %s value invalid."}
@@ -53,6 +55,8 @@ var (
 	authenticateError = &ErrorInfo{http.StatusUnauthorized, "Authenticate failed."}
 	userNotExist      = &ErrorInfo{http.StatusBadRequest, "User not exist."}
 	invalidToken      = &ErrorInfo{http.StatusUnauthorized, "Token invalid."}
-	forbidden         = &ErrorInfo{http.StatusForbidden, "forbidden."}
+	forbidden         = &ErrorInfo{http.StatusForbidden, "Forbidden."}
 	ldapConnectError  = &ErrorInfo{http.StatusInternalServerError, "Connect to LDAP server failed."}
+	passwordWrong     = &ErrorInfo{http.StatusUnauthorized, "Username or password is wrong."}
+	userIsDisabled    = &ErrorInfo{http.StatusBadRequest, "User is disabled."}
 )

@@ -23,6 +23,7 @@ var (
 	InvalidBodyFormat      = New(invalidBodyFormat)
 	InvalidFileType        = New(invalidFileType)
 	InvalidResourceTypeErr = New(invalidResourceType)
+	InvalidHttpMethod      = New(invalidHttpMethod)
 )
 
 func CustomReturn(code int, format string, params ...interface{}) *ErrorInfo {
@@ -48,4 +49,11 @@ func ClusterNotFoundError(clusterName string) *ErrorInfo {
 
 func DealError(err error) *ErrorInfo {
 	return New(dealErrorType, err.Error())
+}
+
+func BadRequest(err error) *ErrorInfo {
+	if err == nil {
+		return New(badRequest, "")
+	}
+	return New(badRequest, err.Error())
 }
