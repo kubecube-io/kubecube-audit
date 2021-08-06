@@ -40,7 +40,9 @@ const (
 	MaxRetryTime         = 10
 )
 
-var EnableAudit bool
+var (
+	SendElasticSearch bool
+)
 
 type Backend struct {
 	url                string
@@ -189,7 +191,7 @@ func (b *Backend) Run() {
 		if len(events.Items) == 0 {
 			continue
 		}
-		if EnableAudit {
+		if SendElasticSearch {
 			go b.sendEvents(events)
 		}
 	}
