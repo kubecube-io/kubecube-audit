@@ -30,9 +30,15 @@ import (
 )
 
 const (
-	hotPlugNameCommon         = "common"
-	hotPlugComponentNameAudit = "audit"
-	hotPlugAuditEnabled       = "enabled"
+	hotPlugNameCommon                 = "common"
+	hotPlugComponentNameAudit         = "audit"
+	hotPlugComponentEnabled           = "enabled"
+	hotPlugComponentNameElasticsearch = "elasticsearch"
+)
+
+var (
+	AuditEnable         = false
+	ElasticSearchEnable = false
 )
 
 func Listener() {
@@ -69,18 +75,27 @@ func Listener() {
 		}
 		components := hotplug.Spec.Component
 		if hotplug.Spec.Component == nil {
-			backend.EnableAudit = false
+			backend.SendElasticSearch = false
 			return
 		}
 		for _, component := range components {
 			if component.Name == hotPlugComponentNameAudit {
-				if component.Status == hotPlugAuditEnabled {
-					backend.EnableAudit = true
+				if component.Status == hotPlugComponentEnabled {
+					AuditEnable = true
 				} else {
-					backend.EnableAudit = false
+					AuditEnable = false
 				}
-				break
 			}
+			if component.Name == hotPlugComponentNameElasticsearch {
+				if component.Status == hotPlugComponentEnabled {
+					ElasticSearchEnable = true
+				} else {
+					ElasticSearchEnable = false
+				}
+			}
+		}
+		if AuditEnable && ElasticSearchEnable {
+			backend.SendElasticSearch = true
 		}
 	}
 
