@@ -37,8 +37,8 @@ const (
 )
 
 var (
-	AuditEnable         = false
-	ElasticSearchEnable = false
+	auditEnable         = false
+	elasticSearchEnable = false
 )
 
 func Listener() {
@@ -81,20 +81,20 @@ func Listener() {
 		for _, component := range components {
 			if component.Name == hotPlugComponentNameAudit {
 				if component.Status == hotPlugComponentEnabled {
-					AuditEnable = true
+					auditEnable = true
 				} else {
-					AuditEnable = false
+					auditEnable = false
 				}
 			}
 			if component.Name == hotPlugComponentNameElasticsearch {
 				if component.Status == hotPlugComponentEnabled {
-					ElasticSearchEnable = true
+					elasticSearchEnable = true
 				} else {
-					ElasticSearchEnable = false
+					elasticSearchEnable = false
 				}
 			}
 		}
-		if AuditEnable && ElasticSearchEnable {
+		if auditEnable && elasticSearchEnable {
 			backend.SendElasticSearch = true
 		}
 	}
