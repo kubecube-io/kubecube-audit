@@ -79,7 +79,7 @@ github.com/imdario/mergo
 github.com/josharian/intern
 # github.com/json-iterator/go v1.1.11
 github.com/json-iterator/go
-# github.com/kubecube-io/kubecube v1.0.0-rc0
+# github.com/kubecube-io/kubecube v1.0.0
 ## explicit
 github.com/kubecube-io/kubecube/pkg/apis
 github.com/kubecube-io/kubecube/pkg/apis/cluster/v1
