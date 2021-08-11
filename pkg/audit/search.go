@@ -17,6 +17,7 @@ limitations under the License.
 package audit
 
 import (
+	"audit/pkg/backend"
 	v1 "audit/pkg/backend/v1"
 	"audit/pkg/utils/auth"
 	"audit/pkg/utils/constants"
@@ -71,6 +72,11 @@ type EsResult struct {
 // @Failure 500 {object} errcode.ErrorInfo
 // @Router /api/v1/cube/audit  [get]
 func SearchAuditLog(c *gin.Context) {
+
+	if !backend.SendElasticSearch {
+		response.FailReturn(c, errcode.New(&errcode.ErrorInfo{Code: http.StatusBadRequest, Message: "Audit or ElasticSearch is disabled."}))
+		return
+	}
 
 	// authority check
 	user := auth.GetUserFromReq(c)
@@ -196,9 +202,9 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 
 	var esResult EsResult
 	// connect to es
-	client, err := elastic.NewClient(elastic.SetSniff(false), elastic.SetURL(env.Webhook().Host+"/"+env.Webhook().Index))
+	client, err := elastic.NewClient(elastic.SetSniff(false), elastic.SetURL(env.Webhook().Host))
 	if err != nil {
-		clog.Error("connect to elasticsearch error: %s", err)
+		clog.Error("connect to elasticsearch error: %s, url: %s ", err, env.Webhook().Host)
 		return esResult, errcode.InternalServerError
 	}
 
@@ -244,12 +250,17 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 	}
 
 	res, err := client.Search().
+		Index(env.Webhook().Index).
 		Query(boolQ).
 		From(query.Page*query.Size).
 		Size(query.Size).
 		Sort(query.SortBy, query.SortAsc).
 		Do(context.Background())
 	if err != nil {
+		if strings.Contains(err.Error(), "404") {
+			clog.Debug("search audit log from es error: %s", err)
+			return esResult, nil
+		}
 		clog.Error("search audit log from es error: %s", err)
 		return esResult, errcode.InternalServerError
 	}
