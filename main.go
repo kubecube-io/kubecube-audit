@@ -46,6 +46,7 @@ func main() {
 	url := ginSwagger.URL("/swagger/doc.json") // The url pointing to API definition
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
+	router.GET(apiPathAuditRoot+"/enabled", audit.IsEnabled)
 	router.POST(apiPathAuditRoot+"/k8s", audit.HandleK8sAuditLog)
 	router.POST(apiPathAuditRoot+"/cube", audit.HandleCubeAuditLog)
 	router.GET(apiPathAuditRoot, audit.SearchAuditLog)

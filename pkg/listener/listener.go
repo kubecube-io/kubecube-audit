@@ -18,6 +18,7 @@ package listener
 
 import (
 	"audit/pkg/backend"
+	"audit/pkg/utils/env"
 	"context"
 	"github.com/kubecube-io/kubecube/pkg/apis"
 	hotplugv1 "github.com/kubecube-io/kubecube/pkg/apis/hotplug/v1"
@@ -37,8 +38,9 @@ const (
 )
 
 var (
-	auditEnable         = false
-	elasticSearchEnable = false
+	auditEnable                 = false
+	internalElasticSearchEnable = false
+	elasticSearchEnable         = false
 )
 
 func Listener() {
@@ -83,16 +85,20 @@ func Listener() {
 				if component.Status == hotPlugComponentEnabled {
 					auditEnable = true
 				} else {
-					auditEnable = false
+					backend.SendElasticSearch = false
+					return
 				}
 			}
 			if component.Name == hotPlugComponentNameElasticsearch {
 				if component.Status == hotPlugComponentEnabled {
-					elasticSearchEnable = true
-				} else {
-					elasticSearchEnable = false
+					internalElasticSearchEnable = true
 				}
 			}
+		}
+		if env.Webhook() != nil {
+			elasticSearchEnable = true
+		} else if internalElasticSearchEnable == true {
+			elasticSearchEnable = true
 		}
 		if auditEnable && elasticSearchEnable {
 			backend.SendElasticSearch = true
