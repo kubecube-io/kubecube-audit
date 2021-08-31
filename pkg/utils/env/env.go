@@ -36,9 +36,17 @@ func Webhook() *EsWebhook {
 	index := os.Getenv("AUDIT_WEBHOOK_INDEX")
 	types := os.Getenv("AUDIT_WEBHOOK_TYPE")
 	if host == "" || index == "" || types == "" {
-		return &EsWebhook{defaultEsHost, defaultEsIndex, defaultEsType}
+		return nil
 	}
 	return &EsWebhook{host, index, types}
+}
+
+func ElasticSearchHost() *EsWebhook {
+	if Webhook() == nil {
+		return &EsWebhook{defaultEsHost, defaultEsIndex, defaultEsType}
+	} else {
+		return Webhook()
+	}
 }
 
 func JwtSecret() string {
