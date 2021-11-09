@@ -49,6 +49,9 @@ func main() {
 	router.GET(apiPathAuditRoot+"/enabled", audit.IsEnabled)
 	router.POST(apiPathAuditRoot+"/k8s", audit.HandleK8sAuditLog)
 	router.POST(apiPathAuditRoot+"/cube", audit.HandleCubeAuditLog)
+	router.POST(apiPathAuditRoot+"/webconsole", audit.HandleWebconsoleAuditLog)
+	router.POST(apiPathAuditRoot + "/generic", audit.HandleGenericAuditLog)
+
 	router.GET(apiPathAuditRoot, audit.SearchAuditLog)
 	router.GET(apiPathAuditRoot+"/export", audit.ExportAuditLog)
 
