@@ -58,7 +58,7 @@ type Backend struct {
 
 func NewBackend() *Backend {
 
-	esWebhook := env.Webhook()
+	esWebhook := env.ElasticSearchHost()
 	esUrl := esWebhook.Host + "/" + esWebhook.Index + "/" + esWebhook.Type
 	b := Backend{
 		url:                esUrl,

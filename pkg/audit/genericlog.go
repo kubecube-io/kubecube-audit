@@ -25,16 +25,18 @@ import (
 	"github.com/kubecube-io/kubecube/pkg/clog"
 )
 
-// receive audit log from KubeCube
-func HandleCubeAuditLog(c *gin.Context) {
+// receive audit log from the third party
+func HandleGenericAuditLog(c *gin.Context) {
 
-	clog.Info("receive cube audit event")
+	eventResource := c.Query("resource")
+	clog.Info("receive audit event from %s", eventResource)
 	event := &v1.Event{}
 	if err := c.ShouldBindJSON(event); err != nil {
-		clog.Error("unmarshal kubecube event failed, error: %s", err)
+		clog.Error("unmarshal event from %s error: %v", eventResource, err)
 		response.FailReturn(c, errcode.InvalidBodyFormat)
 		return
 	}
+	event.EventName = "[" + eventResource + "] " + event.EventName
 	response.SuccessReturn(c, nil)
 
 	// send event to channel

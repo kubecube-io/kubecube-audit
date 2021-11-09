@@ -202,9 +202,9 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 
 	var esResult EsResult
 	// connect to es
-	client, err := elastic.NewClient(elastic.SetSniff(false), elastic.SetURL(env.Webhook().Host))
+	client, err := elastic.NewClient(elastic.SetSniff(false), elastic.SetURL(env.ElasticSearchHost().Host))
 	if err != nil {
-		clog.Error("connect to elasticsearch error: %s, url: %s ", err, env.Webhook().Host)
+		clog.Error("connect to elasticsearch error: %s, url: %s ", err, env.ElasticSearchHost().Host)
 		return esResult, errcode.InternalServerError
 	}
 
@@ -250,7 +250,7 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 	}
 
 	res, err := client.Search().
-		Index(env.Webhook().Index).
+		Index(env.ElasticSearchHost().Index).
 		Query(boolQ).
 		From(query.Page*query.Size).
 		Size(query.Size).
@@ -301,4 +301,9 @@ func checkIsAdmin(userName string) bool {
 		}
 	}
 	return false
+}
+
+func IsEnabled(c *gin.Context) {
+	response.SuccessReturn(c, backend.SendElasticSearch)
+	return
 }

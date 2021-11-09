@@ -28,7 +28,7 @@ import (
 	"strings"
 )
 
-const EventResourceK8s = "[Kubernetes]"
+const eventResourceK8s = "[Kubernetes]"
 
 // receive audit log from K8s
 func HandleK8sAuditLog(c *gin.Context) {
@@ -87,7 +87,7 @@ func getEventName(e *v1.Event) *v1.Event {
 		}
 	}
 	e.ResourceList = []v1.ResourceData{{ResourceType: object}}
-	e.EventName = EventResourceK8s + " " + e.RequestMethod + " " + object
+	e.EventName = eventResourceK8s + " " + e.RequestMethod + " " + object
 	e.Description = e.EventName
 	return e
 }
