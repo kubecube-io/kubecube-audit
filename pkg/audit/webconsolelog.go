@@ -72,14 +72,14 @@ func buildEvent(msg *webconsoleAuditMsg) (*v1.Event, error) {
 		EventTime: msg.CreateTime.Unix(),
 		EventName: eventResourceWebconsole + " " + msg.Data,
 		Description: "ClusterName: " + msg.ClusterName + ", Namespace: " + msg.Namespace +
-			", ContainerUser: " + msg.ContainerUser + ", WebUser: " + msg.WebUser + ", Platform: " + msg.Platform,
+			", ContainerUser: " + msg.ContainerUser + ", Platform: " + msg.Platform,
 		SourceIpAddress:   msg.RemoteIP,
 		UserAgent:         msg.UserAgent,
 		RequestId:         msg.SessionID,
 		RequestParameters: msg.Data,
 		EventType:         msg.DataType,
 		ResourceList:      []v1.ResourceData{{"Pod", "", msg.PodName}},
-		UserIdentity:      nil,
+		UserIdentity:      &v1.UserIdentity{AccountId: msg.WebUser},
 	}
 	return event, nil
 }
