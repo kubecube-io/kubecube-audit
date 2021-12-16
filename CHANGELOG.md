@@ -1,3 +1,8 @@
+# v1.1.0
+2021-12-16
+##Feature: 
+- add apis which receive generic and webconsole audit logs
+
 # v1.0.1
 2021-9-3
 ## Bugfix:
