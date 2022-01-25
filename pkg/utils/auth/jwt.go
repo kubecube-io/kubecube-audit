@@ -18,7 +18,7 @@ package auth
 
 import (
 	"audit/pkg/utils/env"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt"
 	"github.com/kubecube-io/kubecube/pkg/clog"
 	"github.com/kubecube-io/kubecube/pkg/utils/errcode"
 	"k8s.io/api/authentication/v1beta1"
