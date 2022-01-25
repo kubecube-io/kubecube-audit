@@ -3,9 +3,9 @@ module audit
 go 1.15
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.7.1
 	github.com/go-playground/validator/v10 v10.6.0 // indirect
+	github.com/golang-jwt/jwt v3.2.1+incompatible
 	github.com/kubecube-io/kubecube v1.0.0
 	github.com/olivere/elastic/v7 v7.0.24
 	github.com/swaggo/gin-swagger v1.3.0
