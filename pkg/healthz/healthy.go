@@ -18,6 +18,7 @@ package healthz
 
 import (
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 //@Summary health check
@@ -25,4 +26,5 @@ import (
 //@Success 200 {string} string "{"msg": "hello"}"
 //@Router /api/v1/cube/healthz [get]
 func HealthyCheck(c *gin.Context) {
+	c.String(http.StatusOK, "healthy")
 }

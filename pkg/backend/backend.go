@@ -65,6 +65,7 @@ func NewBackend() *Backend {
 		sendTimeout:        SendTimeout,
 		eventBatchInterval: DefaultBatchInterval,
 		eventBatchSize:     DefaultBatchSize,
+		getSenderTimeout:   SendTimeout,
 	}
 
 	b.senderCh = make(chan interface{}, DefaultSendersNum)
@@ -129,6 +130,7 @@ func (b *Backend) sendEvents(events *v1.EventList) {
 				clog.Error("send audit event error[%d]", response.StatusCode)
 				return
 			}
+			clog.Debug("send event %s success", event.EventName)
 		}
 
 	}
