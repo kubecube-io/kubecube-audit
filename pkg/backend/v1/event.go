@@ -29,20 +29,20 @@ type Event struct {
 	ResponseStatus    int
 	ResponseElements  string
 	EventType         string
-	ResourceList      []ResourceData
 	ErrorCode         string
 	ErrorMessage      string
 	Url               string
 	UserIdentity      *UserIdentity
 	ApiAction         string
 	ApiVersion        string
+	ResourceReports   []Resource
 }
 
 type UserIdentity struct {
 	AccountId string
 }
 
-type ResourceData struct {
+type Resource struct {
 	ResourceType string
 	ResourceId   string
 	ResourceName string
