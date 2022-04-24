@@ -17,16 +17,19 @@ limitations under the License.
 package main
 
 import (
-	"audit/pkg/audit"
-	"audit/pkg/backend"
-	"audit/pkg/healthz"
-	"audit/pkg/listener"
-	"audit/pkg/utils/env"
+	"flag"
+
 	"github.com/gin-gonic/gin"
 	"github.com/kubecube-io/kubecube/pkg/clients"
 	"github.com/kubecube-io/kubecube/pkg/clog"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+
+	"audit/pkg/audit"
+	"audit/pkg/backend"
+	"audit/pkg/healthz"
+	"audit/pkg/listener"
+	"audit/pkg/utils/env"
 )
 
 const apiPathAuditRoot = "/api/v1/cube/audit"
@@ -37,6 +40,12 @@ const apiPathAuditRoot = "/api/v1/cube/audit"
 func main() {
 
 	clients.InitCubeClientSetWithOpts(nil)
+	logLevel := flag.String("log-level", "info", "log level")
+	flag.Parse()
+	clog.InitCubeLoggerWithOpts(&clog.Config{
+		LogLevel:        *logLevel,
+		StacktraceLevel: "error",
+	})
 
 	go listener.Listener()
 
@@ -50,7 +59,7 @@ func main() {
 	router.POST(apiPathAuditRoot+"/k8s", audit.HandleK8sAuditLog)
 	router.POST(apiPathAuditRoot+"/cube", audit.HandleCubeAuditLog)
 	router.POST(apiPathAuditRoot+"/webconsole", audit.HandleWebconsoleAuditLog)
-	router.POST(apiPathAuditRoot + "/generic", audit.HandleGenericAuditLog)
+	router.POST(apiPathAuditRoot+"/generic", audit.HandleGenericAuditLog)
 
 	router.GET(apiPathAuditRoot, audit.SearchAuditLog)
 	router.GET(apiPathAuditRoot+"/export", audit.ExportAuditLog)

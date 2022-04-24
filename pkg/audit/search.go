@@ -252,7 +252,7 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 	res, err := client.Search().
 		Index(env.ElasticSearchHost().Index).
 		Query(boolQ).
-		From(query.Page*query.Size).
+		From((query.Page-1)*query.Size).
 		Size(query.Size).
 		Sort(query.SortBy, query.SortAsc).
 		Do(context.Background())
@@ -278,6 +278,7 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 		}
 	} else {
 		esResult.Total = 0
+		clog.Debug("search audit log result from es is 0")
 	}
 	return esResult, nil
 }
