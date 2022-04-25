@@ -20,7 +20,6 @@ import (
 	"audit/pkg/backend"
 	v1 "audit/pkg/backend/v1"
 	"audit/pkg/utils/auth"
-	"audit/pkg/utils/constants"
 	"audit/pkg/utils/env"
 	"audit/pkg/utils/errcode"
 	"audit/pkg/utils/response"
@@ -33,6 +32,7 @@ import (
 	"github.com/kubecube-io/kubecube/pkg/authentication/authenticators/token"
 	"github.com/kubecube-io/kubecube/pkg/authorizer/rbac"
 	"github.com/kubecube-io/kubecube/pkg/clog"
+	"github.com/kubecube-io/kubecube/pkg/utils/constants"
 	"github.com/olivere/elastic/v7"
 	"net/http"
 	"strconv"
@@ -297,7 +297,7 @@ func checkIsAdmin(userName string) bool {
 		return false
 	}
 	for _, clusterRole := range clusterRoles {
-		if clusterRole.Name == constants.ClusterRolePlatformAdmin {
+		if clusterRole.Name == constants.PlatformAdmin {
 			return true
 		}
 	}

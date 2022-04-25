@@ -17,9 +17,9 @@ limitations under the License.
 package auth
 
 import (
-	"audit/pkg/utils/constants"
 	"github.com/gin-gonic/gin"
 	"github.com/kubecube-io/kubecube/pkg/clog"
+	"github.com/kubecube-io/kubecube/pkg/utils/constants"
 	"strings"
 )
 
