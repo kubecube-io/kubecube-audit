@@ -17,10 +17,17 @@ limitations under the License.
 package env
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/kubecube-io/kubecube/pkg/utils/constants"
 )
+
+type AuditSvcApi struct {
+	URL    string
+	Method string
+	Header string
+}
 
 func WardenImage() string {
 	return os.Getenv("WARDEN_IMAGE")
@@ -28,6 +35,10 @@ func WardenImage() string {
 
 func WardenInitImage() string {
 	return os.Getenv("WARDEN_INIT_IMAGE")
+}
+
+func DependenceJobImage() string {
+	return os.Getenv("DEPENDENCE_JOB_IMAGE")
 }
 
 func PivotCubeHost() string {
@@ -50,10 +61,24 @@ func AuditIsEnable() bool {
 	return true
 }
 
-func AuditSVC() string {
-	r := os.Getenv("AUDIT_SVC")
+func AuditSVC() AuditSvcApi {
+	r := os.Getenv("AUDIT_URL")
+	h := os.Getenv("AUDIT_HEADER")
 	if r == "" {
-		r = constants.DefaultAuditSvc
+		r = constants.DefaultAuditURL
+		h = "Content-Type=application/json;charset=UTF-8"
+	}
+	m := os.Getenv("AUDIT_METHOD")
+	if m == "" {
+		m = http.MethodPost
+	}
+	return AuditSvcApi{r, m, h}
+}
+
+func AuditEventSource() string {
+	r := os.Getenv("AUDIT_EVENT_SOURCE")
+	if r == "" {
+		r = "KubeCube"
 	}
 	return r
 }
@@ -62,6 +87,32 @@ func JwtSecret() string {
 	return os.Getenv("JWT_SECRET")
 }
 
+// Deprecated as soon as remove dependence of apiserver
 func NodeIP() string {
 	return os.Getenv("NODE_IP")
+}
+
+// Deprecated as soon as remove dependence of apiserver
+func InstallerVersion() string {
+	return os.Getenv("INSTALLER_VERSION")
+}
+
+func ChartsDownload() string {
+	r := os.Getenv("DOWNLOAD_CHARTS")
+	if r == "" {
+		r = "true"
+	}
+	return r
+}
+
+func ChartsDownloadUrl() string {
+	return os.Getenv("DOWNLOAD_CHARTS_URL")
+}
+
+func AuditLanguage() string {
+	l := os.Getenv("AUDIT_LANGUAGE")
+	if l == "" {
+		l = "en"
+	}
+	return l
 }

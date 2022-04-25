@@ -30,7 +30,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/kubecube-io/kubecube/pkg/authenticator/token"
+	"github.com/kubecube-io/kubecube/pkg/authentication/authenticators/token"
 	"github.com/kubecube-io/kubecube/pkg/authorizer/rbac"
 	"github.com/kubecube-io/kubecube/pkg/clog"
 	"github.com/olivere/elastic/v7"
@@ -121,12 +121,12 @@ func SearchAuditLog(c *gin.Context) {
 func ExportAuditLog(c *gin.Context) {
 
 	// authority check
-	user := token.GetUserFromReq(c)
-	if user == "" {
+	user, userErr := token.GetUserFromReq(c.Request)
+	if userErr !=nil {
 		response.FailReturn(c, errcode.AuthenticateError)
 		return
 	}
-	if !checkIsAdmin(user) {
+	if !checkIsAdmin(user.Username) {
 		response.FailReturn(c, errcode.NoAuthority)
 	}
 
