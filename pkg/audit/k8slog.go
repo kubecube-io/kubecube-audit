@@ -19,9 +19,9 @@ package audit
 import (
 	"audit/pkg/backend"
 	v1 "audit/pkg/backend/v1"
-	"audit/pkg/utils/constants"
 	"github.com/gin-gonic/gin"
 	"github.com/kubecube-io/kubecube/pkg/clog"
+	"github.com/kubecube-io/kubecube/pkg/utils/constants"
 	"k8s.io/apiserver/pkg/apis/audit"
 	"net/http"
 	"strconv"
