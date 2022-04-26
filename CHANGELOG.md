@@ -1,3 +1,13 @@
+# v1.2.0
+2022-4-26
+##Enhance:
+- replace kubecube version v1.1.0 to v1.2.0
+- replace jwt version v3.2.0 to v3.2.1
+## Bugfix:
+- 修复查询审计日志的分页问题
+## Dependency:
+- kubecube 1.2.0
+
 # v1.1.0
 2021-12-16
 ##Feature: 
