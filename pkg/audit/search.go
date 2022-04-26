@@ -284,7 +284,7 @@ func searchLog(query auditQuery) (EsResult, *errcode.ErrorInfo) {
 }
 
 func checkIsAdmin(userName string) bool {
-	h := rbac.NewDefaultResolver(constants.PivotCluster)
+	h := rbac.NewDefaultResolver(constants.LocalCluster)
 	user, err := h.GetUser(userName)
 	if err != nil {
 		clog.Error(err.Error())
