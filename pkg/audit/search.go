@@ -41,7 +41,6 @@ import (
 )
 
 const (
-	exportEventMaxSize      = 1000
 	exportQueryEventMaxSize = 10000
 )
 
@@ -108,7 +107,6 @@ func SearchAuditLog(c *gin.Context) {
 		return
 	}
 	response.SuccessReturn(c, result)
-	return
 }
 
 // @Summary export audit log
@@ -122,7 +120,7 @@ func ExportAuditLog(c *gin.Context) {
 
 	// authority check
 	user, userErr := token.GetUserFromReq(c.Request)
-	if userErr !=nil {
+	if userErr != nil {
 		response.FailReturn(c, errcode.AuthenticateError)
 		return
 	}

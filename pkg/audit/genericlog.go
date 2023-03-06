@@ -42,6 +42,4 @@ func HandleGenericAuditLog(c *gin.Context) {
 	// send event to channel
 	ch := backend.GetCacheCh()
 	backend.CacheEvent(ch, event)
-
-	return
 }
