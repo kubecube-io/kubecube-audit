@@ -71,5 +71,4 @@ func main() {
 	if err != nil {
 		clog.Error("%s", err)
 	}
-	return
 }

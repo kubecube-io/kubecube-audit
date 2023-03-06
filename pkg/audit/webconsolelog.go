@@ -63,8 +63,6 @@ func HandleWebconsoleAuditLog(c *gin.Context) {
 	// send event to channel
 	ch := backend.GetCacheCh()
 	backend.CacheEvent(ch, event)
-
-	return
 }
 
 func buildEvent(msg *webconsoleAuditMsg) (*v1.Event, error) {

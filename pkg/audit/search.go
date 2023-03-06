@@ -304,5 +304,4 @@ func checkIsAdmin(userName string) bool {
 
 func IsEnabled(c *gin.Context) {
 	response.SuccessReturn(c, backend.SendElasticSearch)
-	return
 }
