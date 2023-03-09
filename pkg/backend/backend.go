@@ -105,7 +105,7 @@ func (b *Backend) sendEvents(events *v1.EventList) {
 		start := time.Now()
 		defer func() {
 			stopCh <- struct{}{}
-			clog.Info("send %d auditing logs used %d", len(events.Items), time.Now().Sub(start).Milliseconds())
+			clog.Info("send %d auditing logs used %d", len(events.Items), time.Since(start).Milliseconds())
 		}()
 		retry := 0
 		for _, event := range events.Items {

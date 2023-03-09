@@ -40,7 +40,7 @@ func GetTokenFromReq(c *gin.Context) string {
 
 	// parse bearer token
 	parts := strings.Split(bearerToken, " ")
-	if len(parts) < 2 || strings.ToLower(parts[0]) != strings.ToLower(BearerTokenPrefix) {
+	if len(parts) < 2 || strings.EqualFold(parts[0], BearerTokenPrefix) {
 		return ""
 	}
 	return parts[1]

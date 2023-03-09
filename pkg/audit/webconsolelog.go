@@ -63,8 +63,6 @@ func HandleWebconsoleAuditLog(c *gin.Context) {
 	// send event to channel
 	ch := backend.GetCacheCh()
 	backend.CacheEvent(ch, event)
-
-	return
 }
 
 func buildEvent(msg *webconsoleAuditMsg) (*v1.Event, error) {
@@ -78,7 +76,7 @@ func buildEvent(msg *webconsoleAuditMsg) (*v1.Event, error) {
 		RequestId:         msg.SessionID,
 		RequestParameters: msg.Data,
 		EventType:         msg.DataType,
-		ResourceReports:   []v1.Resource{{"Pod", "", msg.PodName}},
+		ResourceReports:   []v1.Resource{{ResourceType: "Pod", ResourceId: "", ResourceName: msg.PodName}},
 		UserIdentity:      &v1.UserIdentity{AccountId: msg.WebUser},
 	}
 	return event, nil

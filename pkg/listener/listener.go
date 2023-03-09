@@ -97,7 +97,7 @@ func Listener() {
 		}
 		if env.Webhook() != nil {
 			elasticSearchEnable = true
-		} else if internalElasticSearchEnable == true {
+		} else if internalElasticSearchEnable {
 			elasticSearchEnable = true
 		}
 		if auditEnable && elasticSearchEnable {
